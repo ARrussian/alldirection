@@ -2,62 +2,81 @@
 import React, { useState } from "react";
 
 export default function Contact() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [lang, setLang] = useState("en");
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // لاحقًا: ربط مع Resend أو EmailJS
-    alert("✅ تم إرسال رسالتك بنجاح. سنرد عليك قريبًا");
-    setName("");
-    setEmail("");
-    setMessage("");
+    try {
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Submission error", error);
+    }
   };
 
   return (
-    <main className="min-h-screen bg-black text-white p-6">
-      <h1 className="text-3xl text-gold font-bold mb-6 text-center">📧 تواصل معنا</h1>
-      <form onSubmit={handleSubmit} className="max-w-xl mx-auto grid gap-4">
-        <input
-          type="text"
-          placeholder="الاسم الكامل"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="bg-gray-800 border border-gold px-4 py-3 rounded-md"
-          required
-        />
-        <input
-          type="email"
-          placeholder="البريد الإلكتروني"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="bg-gray-800 border border-gold px-4 py-3 rounded-md"
-          required
-        />
-        <textarea
-          placeholder="رسالتك"
-          rows={5}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className="bg-gray-800 border border-gold px-4 py-3 rounded-md"
-          required
-        ></textarea>
-        <button className="bg-gold text-black py-3 rounded-full hover:opacity-90">
-          إرسال
-        </button>
-      </form>
+    <main className="min-h-screen bg-black text-white p-8 font-sans">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-gold">
+          {lang === "ar" ? "اتصل بنا" : "Contact Us"}
+        </h1>
+        <select
+          value={lang}
+          onChange={(e) => setLang(e.target.value)}
+          className="bg-gray-800 text-white border border-gold rounded px-3 py-1"
+        >
+          <option value="en">English</option>
+          <option value="ar">العربية</option>
+        </select>
+      </div>
+
+      {submitted ? (
+        <p className="text-center text-green-400 text-lg">
+          {lang === "ar" ? "تم إرسال رسالتك بنجاح!" : "Your message has been sent successfully!"}
+        </p>
+      ) : (
+        <form onSubmit={handleSubmit} className="max-w-xl mx-auto grid gap-4">
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder={lang === "ar" ? "الاسم الكامل" : "Full Name"}
+            className="bg-gray-800 text-white px-4 py-3 rounded border border-gold"
+            required
+          />
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder={lang === "ar" ? "البريد الإلكتروني" : "Email Address"}
+            className="bg-gray-800 text-white px-4 py-3 rounded border border-gold"
+            required
+          />
+          <textarea
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            placeholder={lang === "ar" ? "رسالتك" : "Your Message"}
+            className="bg-gray-800 text-white px-4 py-3 rounded border border-gold h-40"
+            required
+          />
+          <button type="submit" className="bg-gold text-black py-3 rounded hover:opacity-90">
+            {lang === "ar" ? "إرسال" : "Send Message"}
+          </button>
+        </form>
+      )}
     </main>
-  );
-}
-
-
-// ✅ Footer ثابت (مثلاً داخل layout أو مباشرة في index)
-export function Footer() {
-  return (
-    <footer className="bg-gray-900 text-center text-white py-4 border-t border-gold">
-      <p>© 2025 alldirection — Based in USA 🇺🇸</p>
-      <p className="text-sm mt-1">للتواصل: info@alldirection.com</p>
-    </footer>
   );
 }
