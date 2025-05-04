@@ -1,9 +1,9 @@
 // pages/contact.tsx
 import React, { useState } from "react";
-import { Mail, MessageSquare, User } from "lucide-react";
+import Link from "next/link";
 
 export default function Contact() {
-  const [lang, setLang] = useState("en");
+  const [lang] = useState("en"); // تم إزالة setLang
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<string | null>(null);
 
@@ -26,13 +26,23 @@ export default function Contact() {
       } else {
         setStatus("error");
       }
-    } catch (err) {
-      setStatus("error");
+    } catch {
+      setStatus("error"); // تم إزالة err
     }
   };
 
   return (
-    <main className="min-h-screen bg-black text-white px-4 py-12 flex justify-center items-center">
+    <main className="min-h-screen bg-black text-white px-4 py-12 flex flex-col items-center">
+      {/* Navigation Bar */}
+      <nav className="w-full max-w-5xl flex justify-between items-center px-6 py-4 mb-8 border-b border-gold">
+        <div className="text-2xl font-bold text-gold">Alldirection</div>
+        <div className="flex gap-4">
+          <Link href="/" className="hover:text-gold transition">HOME</Link>
+          <Link href="/about" className="hover:text-gold transition">ABOUT</Link>
+          <Link href="/contact" className="hover:text-gold transition">CONTACT</Link>
+        </div>
+      </nav>
+
       <div className="w-full max-w-2xl bg-gray-900 rounded-xl p-10 border border-gold">
         <h1 className="text-4xl font-bold text-gold mb-8 text-center">
           {lang === "ar" ? "اتصل بنا" : "Contact Us"}
@@ -40,8 +50,8 @@ export default function Contact() {
 
         <form onSubmit={handleSubmit} className="space-y-6 text-lg">
           <div>
-            <label className="block mb-2 font-semibold flex items-center gap-2">
-              <User size={20} /> {lang === "ar" ? "الاسم" : "Name"}
+            <label className="block mb-2 font-semibold">
+              {lang === "ar" ? "الاسم" : "Name"}
             </label>
             <input
               name="name"
@@ -54,8 +64,8 @@ export default function Contact() {
           </div>
 
           <div>
-            <label className="block mb-2 font-semibold flex items-center gap-2">
-              <Mail size={20} /> {lang === "ar" ? "البريد الإلكتروني" : "Email"}
+            <label className="block mb-2 font-semibold">
+              {lang === "ar" ? "البريد الإلكتروني" : "Email"}
             </label>
             <input
               name="email"
@@ -68,8 +78,8 @@ export default function Contact() {
           </div>
 
           <div>
-            <label className="block mb-2 font-semibold flex items-center gap-2">
-              <MessageSquare size={20} /> {lang === "ar" ? "رسالتك" : "Message"}
+            <label className="block mb-2 font-semibold">
+              {lang === "ar" ? "رسالتك" : "Message"}
             </label>
             <textarea
               name="message"
