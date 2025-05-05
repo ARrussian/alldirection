@@ -1,17 +1,15 @@
 // pages/contact.tsx
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 export default function Contact() {
-  const [lang, setLang] = useState("en");
+  const [lang, setLang] = useState<"en" | "ar">("en");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<string | null>(null);
 
   useEffect(() => {
-    const userLang = navigator.language || navigator.languages[0];
-    if (userLang.startsWith("ar")) setLang("ar");
-    else setLang("en");
+    const userLang = navigator.language.startsWith("ar") ? "ar" : "en";
+    setLang(userLang);
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -42,9 +40,9 @@ export default function Contact() {
     <main className="min-h-screen bg-black text-white px-4 py-12 flex flex-col items-center">
       {/* Navigation Bar */}
       <nav className="w-full max-w-5xl flex justify-between items-center px-6 py-4 mb-8 border-b border-gold">
-        <div className="flex items-center gap-3">
-          <Image src="/logo.png" alt="AllDirection Logo" width={40} height={40} />
-          <span className="text-2xl font-bold text-gold">AllDirection</span>
+        <div className="text-2xl font-bold text-gold flex items-center gap-2">
+          <img src="/logo.png" alt="logo" className="w-24 h-24" />
+          <span>AllDirection</span>
         </div>
         <div className="flex gap-4">
           <Link href="/" className="hover:text-gold transition">HOME</Link>
