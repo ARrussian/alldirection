@@ -1,30 +1,53 @@
-// pages/details/مراكش.tsx
-import React from "react";
-import { useRouter } from "next/router";
+// pages/details/marrakech.tsx
+import React, { useState } from "react";
+import Head from "next/head";
+import Navbar from "@/components/Navbar";
 
-export default function MarrakechDetails() {
-  const router = useRouter();
+export default function MarrakechPage() {
+  const [lang, setLang] = useState<'ar' | 'en'>('ar');
+
+  const content = {
+    ar: {
+      title: "رحلة مراكش السياحية",
+      description: "اكتشف سحر مراكش في رحلة تشمل:",
+      items: [
+        "إقامة في رياض تقليدي مغربي",
+        "زيارة جامع الفنا والأسواق الشعبية",
+        "جولات سياحية في المدينة القديمة",
+        "رحلة إلى جبال الأطلس",
+        "تأشيرة وتنقلات خاصة"
+      ]
+    },
+    en: {
+      title: "Marrakech Tourist Trip",
+      description: "Discover the charm of Marrakech with a trip that includes:",
+      items: [
+        "Stay in a traditional Moroccan Riad",
+        "Visit Jemaa el-Fnaa and local souks",
+        "City tours in the Medina",
+        "Trip to the Atlas Mountains",
+        "Visa and private transfers"
+      ]
+    }
+  };
+
+  const current = content[lang];
 
   return (
-    <main className="min-h-screen bg-black text-white font-sans p-6">
-      <h1 className="text-4xl font-bold text-gold mb-4">رحلة مراكش السياحية 🏜️</h1>
-      <p className="mb-6">استمتع بجمال المدينة الحمراء والمزيج بين الأصالة والحداثة، وتشمل الرحلة:</p>
-
-      <ul className="list-disc list-inside space-y-2">
-        <li>إقامة في رياض تقليدي مغربي</li>
-        <li>زيارة جامع الفنا والأسواق القديمة</li>
-        <li>جولة إلى جبال أطلس</li>
-        <li>تذكرة طيران ذهاب وعودة</li>
-        <li>إفطار مغربي يومي</li>
-        <li>لا حاجة لفيزا للمواطنين العرب</li>
-      </ul>
-
-      <button
-        onClick={() => router.push("/register")}
-        className="mt-8 bg-gold text-black px-6 py-3 rounded-full hover:opacity-90"
-      >
-        احجز رحلتك الآن
-      </button>
+    <main className="min-h-screen bg-black text-white">
+      <Head>
+        <title>{current.title}</title>
+      </Head>
+      <Navbar lang={lang} setLang={setLang} />
+      <section className="flex flex-col items-center justify-center text-center px-4 py-16">
+        <h1 className="text-5xl font-bold mb-6 text-gold">{current.title}</h1>
+        <p className="text-lg max-w-2xl mb-8">{current.description}</p>
+        <ul className="text-left text-lg leading-loose max-w-xl">
+          {current.items.map((item, i) => (
+            <li key={i} className="mb-2">{item}</li>
+          ))}
+        </ul>
+      </section>
     </main>
   );
 }

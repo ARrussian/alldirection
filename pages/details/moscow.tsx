@@ -1,30 +1,53 @@
-// pages/details/موسكو.tsx
-import React from "react";
-import { useRouter } from "next/router";
+// pages/details/moscow.tsx
+import React, { useState } from "react";
+import Head from "next/head";
+import Navbar from "@/components/Navbar";
 
-export default function MoscowDetails() {
-  const router = useRouter();
+export default function MoscowPage() {
+  const [lang, setLang] = useState<'ar' | 'en'>('ar');
+
+  const content = {
+    ar: {
+      title: "رحلة موسكو السياحية",
+      description: "استكشف عراقة موسكو ضمن رحلة تشمل:",
+      items: [
+        "إقامة فاخرة وسط العاصمة",
+        "زيارة الكرملين والساحة الحمراء",
+        "جولات في متاحف وقصور تاريخية",
+        "رحلة بحرية في نهر موسكفا",
+        "تأشيرة ودليل سياحي"
+      ]
+    },
+    en: {
+      title: "Moscow Tourist Trip",
+      description: "Explore the heritage of Moscow with a trip that includes:",
+      items: [
+        "Luxury accommodation in the city center",
+        "Visit to the Kremlin and Red Square",
+        "Tours in historical museums and palaces",
+        "River cruise in Moskva River",
+        "Visa and tour guide"
+      ]
+    }
+  };
+
+  const current = content[lang];
 
   return (
-    <main className="min-h-screen bg-black text-white font-sans p-6">
-      <h1 className="text-4xl font-bold text-gold mb-4">رحلة موسكو السياحية ❄️</h1>
-      <p className="mb-6">خض تجربة لا تُنسى في العاصمة الروسية موسكو، تتضمن الرحلة:</p>
-
-      <ul className="list-disc list-inside space-y-2">
-        <li>إقامة فاخرة في وسط المدينة</li>
-        <li>زيارة الكرملين والميدان الأحمر</li>
-        <li>رحلة بالقطار السريع</li>
-        <li>تذكرة طيران ذهاب وعودة</li>
-        <li>إفطار يومي وجولات منظمة</li>
-        <li>تأشيرة عند الوصول متاحة</li>
-      </ul>
-
-      <button
-        onClick={() => router.push("/register")}
-        className="mt-8 bg-gold text-black px-6 py-3 rounded-full hover:opacity-90"
-      >
-        احجز رحلتك الآن
-      </button>
+    <main className="min-h-screen bg-black text-white">
+      <Head>
+        <title>{current.title}</title>
+      </Head>
+      <Navbar lang={lang} setLang={setLang} />
+      <section className="flex flex-col items-center justify-center text-center px-4 py-16">
+        <h1 className="text-5xl font-bold mb-6 text-gold">{current.title}</h1>
+        <p className="text-lg max-w-2xl mb-8">{current.description}</p>
+        <ul className="text-left text-lg leading-loose max-w-xl">
+          {current.items.map((item, i) => (
+            <li key={i} className="mb-2">{item}</li>
+          ))}
+        </ul>
+      </section>
     </main>
   );
 }
