@@ -1,5 +1,5 @@
 // pages/index.tsx
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
@@ -67,7 +67,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="p-8 text-center relative z-10">
         <div className="flex flex-col items-center gap-4 animate-fadeIn">
-          <Image src="/logo.png" alt="Logo" width={128} height={128} />
+          <Image src="/logo.png" alt="Logo" width={100} height={100} />
           <h1 className="text-4xl text-gold font-bold">
             {lang === "ar" ? "مرحبًا بك في موقع Alldirection السياحي" : "Welcome to Alldirection Travel"}
           </h1>
