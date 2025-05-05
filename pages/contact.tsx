@@ -41,7 +41,7 @@ export default function Contact() {
       {/* Navigation Bar */}
       <nav className="w-full max-w-5xl flex justify-between items-center px-6 py-4 mb-8 border-b border-gold">
         <div className="text-2xl font-bold text-gold flex items-center gap-2">
-          <img src="/logo.png" alt="logo" className="w-24 h-24" />
+          <img src="/logo.png" alt="logo" className="w-48 h-48" />
           <span>AllDirection</span>
         </div>
         <div className="flex gap-4">
@@ -101,7 +101,7 @@ export default function Contact() {
           <div className="text-center">
             <button
               type="submit"
-              className="bg-gold text-black text-lg font-bold py-2 px-10 rounded hover:opacity-90 transition"
+              className="bg-gold hover:bg-white text-black text-lg font-bold py-2 px-10 rounded transition"
             >
               {lang === "ar" ? "إرسال" : "Send"}
             </button>

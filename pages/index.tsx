@@ -1,5 +1,5 @@
 // pages/index.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
@@ -7,6 +7,11 @@ import Image from "next/image";
 export default function Home() {
   const router = useRouter();
   const [lang, setLang] = useState("en");
+
+  useEffect(() => {
+    const userLang = navigator.language.startsWith("ar") ? "ar" : "en";
+    setLang(userLang);
+  }, []);
 
   const destinations = [
     { name: lang === "ar" ? "دبي" : "Dubai", path: "dubai", image: "/images/dubai.jpg" },
@@ -39,7 +44,7 @@ export default function Home() {
       {/* Navbar */}
       <nav className="bg-gray-900 border-b border-gold px-6 py-4 flex justify-between items-center relative z-10">
         <div className="flex items-center gap-3">
-          <Image src="/logo.png" alt="Logo" width={40} height={40} />
+          <Image src="/logo.png" alt="Logo" width={80} height={80} />
           <div className="text-2xl font-bold text-gold">Alldirection</div>
         </div>
         <div className="flex items-center gap-6">
@@ -62,7 +67,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="p-8 text-center relative z-10">
         <div className="flex flex-col items-center gap-4 animate-fadeIn">
-          <Image src="/logo.png" alt="Logo" width={64} height={64} />
+          <Image src="/logo.png" alt="Logo" width={128} height={128} />
           <h1 className="text-4xl text-gold font-bold">
             {lang === "ar" ? "مرحبًا بك في موقع Alldirection السياحي" : "Welcome to Alldirection Travel"}
           </h1>
